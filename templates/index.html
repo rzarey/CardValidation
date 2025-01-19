@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Validator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Data Validation</h1>
+        <form id="paymentForm" method="POST">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" required value="{{ email if email }}">
+                <span class="warning" id="email-warning"></span>
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required value="{{ name if name }}">
+                <span class="warning" id="name-warning"></span>
+            </div>
+            <div class="form-group">
+                <label for="card_number">Credit Card Number:</label>
+                <input type="text" id="card_number" name="card_number" required value="{{ card_number if card_number }}">
+                <span class="warning" id="card_number-warning"></span>
+            </div>
+            <div class="form-group">
+                <label for="expiry_date">Expiry Date (MM/YY):</label>
+                <input type="text" id="expiry_date" name="expiry_date" required value="{{ expiry_date if expiry_date }}">
+                <span class="warning" id="expiry_date-warning"></span>
+            </div>
+            <div class="form-group">
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" required value="{{ cvv if cvv }}">
+                <span class="warning" id="cvv-warning"></span>
+            </div>
+            <button type="submit">Validate Payment</button>
+        </form>
+
+        {% if submitted %}
+            <div class="result">
+                <h2>Validation Results:</h2>
+                <p>Email: <span class="{{ 'valid' if email_valid else 'invalid' }}">{{ email }}</span></p>
+                <p>Name: <span class="{{ 'valid' if name_valid else 'invalid' }}">{{ name }}</span></p>
+                <p>Credit Card Number: <span class="{{ 'valid' if card_valid else 'invalid' }}">{{ card_number }}</span></p>
+                <p>Expiry Date: <span class="{{ 'valid' if expiry_valid else 'invalid' }}">{{ expiry_date }}</span></p>
+                <p>CVV: <span class="{{ 'valid' if cvv_valid else 'invalid' }}">{{ cvv }}</span></p>
+                 {% if not email_valid or not name_valid or not card_valid or not expiry_valid or not cvv_valid %}
+                    <p class="alert">Some fields are invalid!</p>
+                {% else %}
+                    <p class="success">All fields are valid!</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
